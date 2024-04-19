@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createHmac, randomUUID } from "node:crypto";
 import { z } from "zod";
 
@@ -28,18 +27,21 @@ export async function getSerialNumbers(accessKey: string, secretKey: string) {
     .update(`accessKey=${accessKey}&nonce=${nonce}&timestamp=${timestamp}`)
     .digest("hex");
 
-  const response = await axios({
-    method: "GET",
-    url: "https://api-e.ecoflow.com/iot-open/sign/device/list",
-    headers: {
-      accessKey,
-      timestamp,
-      nonce,
-      sign,
+  const response = await fetch(
+    "https://api-e.ecoflow.com/iot-open/sign/device/list",
+    {
+      method: "GET",
+      headers: [
+        ["accessKey", accessKey],
+        ["timestamp", timestamp.toString()],
+        ["nonce", nonce],
+        ["sign", sign],
+      ],
     },
-  });
+  );
 
-  const parsed = deviceListResponseSchema.parse(response.data);
+  const payload = await response.json();
+  const parsedPayload = deviceListResponseSchema.parse(payload);
 
-  return parsed.data.map(({ sn }) => sn);
+  return parsedPayload.data.map(({ sn }) => sn);
 }

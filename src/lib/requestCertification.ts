@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createHmac, randomUUID } from "node:crypto";
-import axios from "axios";
 
 const certificationErrorSchema = z.object({
   code: z.string().regex(/^[1-9]\d*$/),
@@ -36,19 +35,22 @@ export async function requestCertification(
     .update(`accessKey=${accessKey}&nonce=${nonce}&timestamp=${timestamp}`)
     .digest("hex");
 
-  const response = await axios({
-    method: "GET",
-    url: "https://api-e.ecoflow.com/iot-open/sign/certification",
-    headers: {
-      accessKey,
-      timestamp,
-      nonce,
-      sign,
+  const response = await fetch(
+    "https://api-e.ecoflow.com/iot-open/sign/certification",
+    {
+      method: "GET",
+      headers: [
+        ["accessKey", accessKey],
+        ["timestamp", timestamp.toString()],
+        ["nonce", nonce],
+        ["sign", sign],
+      ],
     },
-  });
+  );
 
-  const parsedError = certificationErrorSchema.safeParse(response.data);
-  const parsedResult = certificationSchema.safeParse(response.data);
+  const payload = await response.json();
+  const parsedError = certificationErrorSchema.safeParse(payload);
+  const parsedResult = certificationSchema.safeParse(payload);
 
   if (parsedError.success) {
     throw new Error(
