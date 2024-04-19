@@ -2,7 +2,6 @@
   "name": "ecoflow-api-playground",
   "version": "0.0.1",
   "description": "Playground and examples for ecoflow api",
-  "main": "index.js",
   "scripts": {
     "mqtt": "ts-node src/mqtt.ts"
   },
