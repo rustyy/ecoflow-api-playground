@@ -1,12 +1,12 @@
 import mqtt from "mqtt";
-import { requestCertification } from "./lib/requestCertification";
 import { accessKey, clientId, secretKey } from "./lib/env";
-import { getSerialNumbers } from "./lib/getSerialNumbers";
+import { createClient as createRestClient } from "./restClient";
 
 async function main() {
+  const restClient = createRestClient({ accessKey, secretKey });
+  const serialNumbers = await restClient.getSerialNumbers();
   const { certificateAccount, certificatePassword, url, protocol, port } =
-    await requestCertification(accessKey, secretKey);
-  const serialNumbers = await getSerialNumbers(accessKey, secretKey);
+    await restClient.requestCertification();
 
   const mqttClient = mqtt.connect({
     clientId,

@@ -1,9 +1,10 @@
 import { accessKey, clientId, secretKey } from "./lib/env";
 import { createClient } from "./mqttClient";
-import { getSerialNumbers } from "./lib/getSerialNumbers";
+import { createClient as createRestClient } from "./restClient";
 
 async function main() {
-  const serialNumbers = await getSerialNumbers(accessKey, secretKey);
+  const restClient = createRestClient({ accessKey, secretKey });
+  const serialNumbers = await restClient.getSerialNumbers();
   const client = createClient({
     accessKey,
     secretKey,

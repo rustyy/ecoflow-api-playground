@@ -13,3 +13,4 @@ function getRequiredEnvVar(name: string) {
 export const accessKey = getRequiredEnvVar("accessKey");
 export const secretKey = getRequiredEnvVar("secretKey");
 export const clientId = getRequiredEnvVar("clientId");
+export const restApiHost = "https://api-e.ecoflow.com";

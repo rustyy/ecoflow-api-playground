@@ -1,6 +1,6 @@
 import mqtt from "mqtt";
-import { requestCertification } from "../lib/requestCertification";
-import { TopicCallback, getTopicUrl, TopicName } from "./topics";
+import { getTopicUrl, TopicCallback, TopicName } from "./topics";
+import { createClient as createRestClient } from "../restClient";
 
 type CreateClientParams = {
   clientId: string;
@@ -12,6 +12,10 @@ export function createClient(params: CreateClientParams) {
   let client: mqtt.MqttClient;
   let certificateAccount: string;
   let certificatePassword: string;
+  const restClient = createRestClient({
+    accessKey: params.accessKey,
+    secretKey: params.secretKey,
+  });
 
   // Keep track of topic subscriptions to prevent multiple registrations to the same one.
   const subscriptions = new Map<
@@ -49,10 +53,7 @@ export function createClient(params: CreateClientParams) {
      * @link https://developer-eu.ecoflow.com/us/document/generalInfo
      */
     init: async () => {
-      const credentials = await requestCertification(
-        params.accessKey,
-        params.secretKey,
-      );
+      const credentials = await restClient.requestCertification();
 
       certificateAccount = credentials.certificateAccount;
       certificatePassword = credentials.certificatePassword;
