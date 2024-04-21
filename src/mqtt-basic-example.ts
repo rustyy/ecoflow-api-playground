@@ -1,4 +1,3 @@
-import "dotenv/config";
 import mqtt from "mqtt";
 import { requestCertification } from "./lib/requestCertification";
 import { accessKey, clientId, secretKey } from "./lib/env";

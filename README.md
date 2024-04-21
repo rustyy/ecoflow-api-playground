@@ -7,5 +7,7 @@ Copy `.env.example` and rename to `.env` and enter your access- and secret-key a
 
 Note: Only 10 clients are allowed to connect, further requests are blocked.
 
-After .env-file is ready, run `npm run mqtt`.
-This will request all devices bound to your ecoflow account and subscribes to the quota-topic for each device.
+After .env-file is ready, run one of the following scripts:
+
+- `npm run example:mqtt-basic` - This will request all devices bound to your ecoflow account and subscribes to the quota-topic for each device. 
+- `npm run example:mqtt-custom-client` - run the poc for custom client

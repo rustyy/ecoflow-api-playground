@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Playground and examples for ecoflow api",
   "scripts": {
-    "mqtt": "ts-node src/mqtt.ts"
+    "example:mqtt-basic": "ts-node src/mqtt-basic-example.ts",
+    "example:mqtt-custom-client": "ts-node src/mqtt-custom-client-example.ts"
   },
   "author": "Felix Hofmann <felix.hofmann@rustyy.de>",
   "license": "MIT",
