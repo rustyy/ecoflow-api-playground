@@ -11,3 +11,4 @@ After .env-file is ready, run one of the following scripts:
 
 - `npm run example:mqtt-basic` - This will request all devices bound to your ecoflow account and subscribes to the quota-topic for each device. 
 - `npm run example:mqtt-custom-client` - run the poc for custom client
+- `npm run example:rest-client` - run some example rest requests using the rest client
