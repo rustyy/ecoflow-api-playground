@@ -2,6 +2,12 @@
   "name": "ecoflow-api-playground",
   "version": "0.0.1",
   "description": "Playground and examples for ecoflow api",
+  "keywords": [
+    "ecoflow",
+    "rest",
+    "mqtt",
+    "examples"
+  ],
   "scripts": {
     "test": "jest",
     "example:mqtt-basic": "ts-node src/mqtt-basic-example.ts",
