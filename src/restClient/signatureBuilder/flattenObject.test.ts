@@ -9,7 +9,12 @@ describe("flattenObjects", () => {
 
   test("flattens arrays", () => {
     const result = flattenObject([1, 2, { a: "b" }, null]);
-    expect(result).toEqual({ 0: 1, 1: 2, "2.a": "b", "3": null });
+    expect(result).toEqual({
+      "[0]": 1,
+      "[1]": 2,
+      "[2].a": "b",
+      "[3]": null,
+    });
   });
 
   test("flattens array property value", () => {
