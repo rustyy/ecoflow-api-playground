@@ -10,14 +10,6 @@ export class SignatureBuilder {
     this.#secretKey = secretKey;
   }
 
-  #createHmac() {
-    return createHmac("sha256", this.#secretKey);
-  }
-
-  createNonce() {
-    return randomUUID();
-  }
-
   #appendAccessKey(msg: string, nonce: string, timestamp: string) {
     const suffix = `accessKey=${this.#accessKey}&nonce=${nonce}&timestamp=${timestamp}`;
     return msg ? `${msg}&${suffix}` : suffix;
@@ -38,17 +30,17 @@ export class SignatureBuilder {
     return tmp.join("&");
   }
 
-  createSignature(msg: Record<string, any>) {
-    const hmac = this.#createHmac();
+  createSignature(msg?: Record<string, any>) {
+    const hmac = createHmac("sha256", this.#secretKey);
     const timestamp = Date.now().toString();
-    const nonce = this.createNonce();
-    const foo = this.#appendAccessKey(
-      this.buildDataString(msg),
+    const nonce = randomUUID();
+    const data = this.#appendAccessKey(
+      this.buildDataString(msg ?? {}),
       nonce,
       timestamp,
     );
 
-    const signature = hmac.update(foo).digest("hex");
+    const signature = hmac.update(data).digest("hex");
 
     return {
       nonce,

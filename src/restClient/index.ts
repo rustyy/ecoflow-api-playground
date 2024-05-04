@@ -26,7 +26,7 @@ export function createClient(params: CreateClientParams) {
    */
   async function getDeviceList() {
     const { timestamp, nonce, accessKey, signature } =
-      signatureBuilder.createSignature({});
+      signatureBuilder.createSignature();
 
     const response = await fetch(DEVICE_LIST_URL, {
       method: "GET",
