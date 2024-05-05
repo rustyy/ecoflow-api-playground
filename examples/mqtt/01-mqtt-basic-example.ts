@@ -3,14 +3,16 @@
  *       for all serial numbers connected to the specific account
  */
 import mqtt from "mqtt";
-import { accessKey, clientId, secretKey } from "./lib/env";
-import { createClient as createRestClient } from "./restClient";
+import { accessKey, clientId, secretKey } from "../../src/lib/env";
+import { RestClient } from "../../src/restClient";
 
 async function main() {
-  const restClient = createRestClient({ accessKey, secretKey });
-  const serialNumbers = await restClient.getSerialNumbers();
+  const restClient = new RestClient(accessKey, secretKey);
+  const serialNumbers = await restClient.getDeviceList(({ data }) =>
+    data.map(({ sn }) => sn),
+  );
   const { certificateAccount, certificatePassword, url, protocol, port } =
-    await restClient.requestCertification();
+    await restClient.getMqttCredentials();
 
   // Initialize mqtt client.
   const mqttClient = await mqtt.connectAsync({

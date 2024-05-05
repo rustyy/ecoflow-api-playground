@@ -2,8 +2,8 @@
  * @file example on how to switch on/off ecoflow smart plug
  */
 import mqtt from "mqtt";
-import { accessKey, clientId, secretKey } from "./lib/env";
-import { createClient as createRestClient } from "./restClient";
+import { accessKey, clientId, secretKey } from "../../src/lib/env";
+import { RestClient } from "../../src/restClient";
 
 // Smart plug serial number
 // Put serial number into env-file or enter sn below.
@@ -21,9 +21,9 @@ async function main() {
   }
 
   // Request credentials.
-  const restClient = createRestClient({ accessKey, secretKey });
+  const restClient = new RestClient(accessKey, secretKey);
   const { certificateAccount, certificatePassword, url, protocol, port } =
-    await restClient.requestCertification();
+    await restClient.getMqttCredentials();
 
   // Initialize mqtt-client.
   const mqttClient = mqtt.connect({

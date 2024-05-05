@@ -1,10 +1,12 @@
-import { accessKey, clientId, secretKey } from "./lib/env";
-import { createClient } from "./mqttClient";
-import { createClient as createRestClient } from "./restClient";
+import { accessKey, clientId, secretKey } from "../../src/lib/env";
+import { createClient } from "../../src/mqttClient";
+import { RestClient } from "../../src/restClient";
 
 async function main() {
-  const restClient = createRestClient({ accessKey, secretKey });
-  const serialNumbers = await restClient.getSerialNumbers();
+  const restClient = new RestClient(accessKey, secretKey);
+  const serialNumbers = await restClient.getDeviceList(({ data }) =>
+    data.map(({ sn }) => sn),
+  );
   const client = createClient({
     accessKey,
     secretKey,

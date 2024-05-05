@@ -9,10 +9,7 @@
     "examples"
   ],
   "scripts": {
-    "test": "jest",
-    "example:mqtt-basic": "ts-node src/mqtt-basic-example.ts",
-    "example:mqtt-custom-client": "ts-node src/mqtt-custom-client-example.ts",
-    "example:rest-client": "ts-node src/rest-client-example.ts"
+    "test": "jest"
   },
   "author": "Felix Hofmann <felix.hofmann@rustyy.de>",
   "license": "MIT",
