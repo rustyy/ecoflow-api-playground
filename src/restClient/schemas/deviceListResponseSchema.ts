@@ -11,3 +11,5 @@ export const deviceListResponseSchema = z.object({
     }),
   ),
 });
+
+export type DeviceListResponse = z.infer<typeof deviceListResponseSchema>;
