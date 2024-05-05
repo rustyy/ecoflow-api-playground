@@ -43,14 +43,6 @@ export class RestClient {
     // @todo define proper schema for payload
     payload?: Record<string, any>,
   ) {
-    const parsedUrl = new URL(url);
-    const searchParams = parsedUrl.searchParams;
-
-    const signData = {
-      ...searchParams,
-      ...payload,
-    };
-
     const response = await fetch(url, {
       method: method,
       headers: this.#createRequestHeaders(
