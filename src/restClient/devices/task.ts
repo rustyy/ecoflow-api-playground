@@ -15,7 +15,7 @@ export const taskSchema = z.object({
   type: z.number().int(),
   timeRange: z.object({
     isConfig: z.boolean(),
-    isEnabled: z.boolean(),
+    isEnabled: z.boolean().optional(),
     timeData: z.number().int(),
     timeMode: z.number().int(),
     startTime: timeSchema,

@@ -68,14 +68,16 @@ const setCommandSuccessResponseSchema = z.object({
   tid: z.string(),
 });
 
+const setCommandFailureResponseSchema = z.object({
+  code: z.string().regex(/\d+/),
+  message: z.string(),
+  eagleEyeTraceId: z.string(),
+  tid: z.string(),
+});
+
 const setCommandResponseSchema = z.union([
   setCommandSuccessResponseSchema,
-  z.object({
-    code: z.string().regex(/\d+/),
-    message: z.string(),
-    eagleEyeTraceId: z.string(),
-    tid: z.string(),
-  }),
+  setCommandFailureResponseSchema,
 ]);
 
 export type SetCommandResponse = z.infer<typeof setCommandResponseSchema>;
@@ -106,35 +108,29 @@ const getCommandSchema = z.object({
 export type SmartPlugGetCommand = z.infer<typeof getCommandSchema>;
 
 // @todo: docs are confusing concerning task indexes
-const getCommandSuccessResponseSchema = z.object({
-  code: z.literal("0"),
-  message: z.literal("Success"),
+export const getCommandResponseSchema = z.object({
+  code: z.string().regex(/\d+/),
+  message: z.string(),
   eagleEyeTraceId: z.string(),
   tid: z.string(),
-  data: z.object({
-    "2_1.brightness": z.number().min(0).max(1023).optional(),
-    "2_1.switchSta": z.boolean().optional(),
-    "2_2.task0": taskSchema.optional(),
-    "2_2.task1": taskSchema.optional(),
-    "2_2.task2": taskSchema.optional(),
-    "2_2.task3": taskSchema.optional(),
-    "2_2.task4": taskSchema.optional(),
-    "2_2.task5": taskSchema.optional(),
-    "2_2.task6": taskSchema.optional(),
-    "2_2.task7": taskSchema.optional(),
-    "2_2.task8": taskSchema.optional(),
-    "2_2.task9": taskSchema.optional(),
-  }),
+  data: z
+    .object({
+      "2_1.brightness": z.number().min(0).max(1023).optional(),
+      "2_1.switchSta": z.boolean().optional(),
+      "2_2.task0": taskSchema.optional(),
+      "2_2.task1": taskSchema.optional(),
+      "2_2.task2": taskSchema.optional(),
+      "2_2.task3": taskSchema.optional(),
+      "2_2.task4": taskSchema.optional(),
+      "2_2.task5": taskSchema.optional(),
+      "2_2.task6": taskSchema.optional(),
+      "2_2.task7": taskSchema.optional(),
+      "2_2.task8": taskSchema.optional(),
+      "2_2.task9": taskSchema.optional(),
+    })
+    .optional(),
 });
 
-const getCommandResponseSchema = z.union([
-  getCommandSuccessResponseSchema,
-  z.object({
-    code: z.string().regex(/\d+/),
-    message: z.string(),
-    eagleEyeTraceId: z.string(),
-    tid: z.string(),
-  }),
-]);
-
-export type GetCommandResponse = z.infer<typeof getCommandResponseSchema>;
+export type SmartPlugGetCommandSuccessResponse = z.infer<
+  typeof getCommandResponseSchema
+>;
