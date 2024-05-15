@@ -57,31 +57,6 @@ const setCommandSchema = z.union([
 
 export type SmartPlugSetCommand = z.infer<typeof setCommandSchema>;
 
-/**
- * Define response schema for the commands.
- */
-
-const setCommandSuccessResponseSchema = z.object({
-  code: z.literal("0"),
-  message: z.literal("Success"),
-  eagleEyeTraceId: z.string(),
-  tid: z.string(),
-});
-
-const setCommandFailureResponseSchema = z.object({
-  code: z.string().regex(/\d+/),
-  message: z.string(),
-  eagleEyeTraceId: z.string(),
-  tid: z.string(),
-});
-
-const setCommandResponseSchema = z.union([
-  setCommandSuccessResponseSchema,
-  setCommandFailureResponseSchema,
-]);
-
-export type SetCommandResponse = z.infer<typeof setCommandResponseSchema>;
-
 /*********************************************
  * Get commands
  *********************************************/
